@@ -3,7 +3,9 @@ import Image from 'next/image'
 import { Bars2Icon, Bars3Icon, BeakerIcon, BellIcon, ChatBubbleLeftIcon, ChevronDownIcon, GlobeAltIcon, HomeIcon, MagnifyingGlassCircleIcon, PlusIcon, SparklesIcon, UserCircleIcon, VideoCameraIcon } from "@heroicons/react/16/solid";
 import { StarIcon } from "@heroicons/react/16/solid";
 import { SpeakerWaveIcon } from '@heroicons/react/20/solid';
+import { signIn,signOut, useSession} from 'next-auth/react'
 function Header() {
+    const {data: session} =useSession()
   return (
     <div className='sticky top-0 z-50 flex bg-white px=4 py-2 shadow-sm'>
     <div className='relative h-10 w-20 flex-shrink-0 cursor-pointer'>
@@ -39,13 +41,28 @@ function Header() {
         <Bars3Icon className='icon'/>
       </div>
       {/* SignIn */}
-      <div className='hidden cursor-pointer lg:flex items-center space-x-2 border-gray-200 p-2'>
-        <UserCircleIcon className='icon relative flex-shrink-0'/>
+      {session?
+      (
+        <div onClick={()=>signOut()} className='hidden cursor-pointer lg:flex items-center space-x-2 border-gray-200 p-2'>
+        <UserCircleIcon className='icon relativ flex-shrink-0'/>
+        <div className='flex-1 text-xs'>
+            <p className='truncate'>{session.user?.name}</p>
+            <p className='text-gray-400'>1-Karma</p>
+        </div>
+        <ChevronDownIcon className='icon'/>
+      </div>
+      ):
+      (
+        <div onClick={()=>signIn()} className='hidden cursor-pointer lg:flex items-center space-x-2 border-gray-200 p-2'>
+        <UserCircleIcon className='icon relativ flex-shrink-0'/>
         <p className='text-gray-400'>Sign In</p>
       </div>
+      )}
+      
 
     </div>
   )
 }
 
 export default Header
+

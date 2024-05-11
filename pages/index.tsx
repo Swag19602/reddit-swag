@@ -8,9 +8,9 @@ export default function Home() {
   return (
     <div className="">
       <Head>
-        <title>Reddit 2.0</title>
+        <div>Reddit 2.0</div>
       </Head>
-      <Header/>
+      <p>Hello</p>
     </div>
   );
 }
